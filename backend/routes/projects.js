@@ -4,7 +4,6 @@ const Project = require('../models/Project');
 const Review = require('../models/Review');
 const auth = require('../middleware/auth');
 
-// GET /api/projects — with search & category filter
 router.get('/', async (req, res) => {
   try {
     const { category, search } = req.query;
@@ -18,7 +17,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/projects/my
 router.get('/my', auth, async (req, res) => {
   try {
     const projects = await Project.find({ author: req.user.id }).sort({ createdAt: -1 });
@@ -28,7 +26,6 @@ router.get('/my', auth, async (req, res) => {
   }
 });
 
-// GET /api/projects/stats — for homepage
 router.get('/stats', async (req, res) => {
   try {
     const total     = await Project.countDocuments();
@@ -40,13 +37,11 @@ router.get('/stats', async (req, res) => {
   }
 });
 
-// GET /api/projects/:id
 router.get('/:id', async (req, res) => {
   try {
     const project = await Project.findById(req.params.id).populate('author', 'name');
     if (!project) return res.status(404).json({ message: 'Проект не найден' });
 
-    // Attach avg rating
     const reviews = await Review.find({ project: req.params.id });
     const avgRating = reviews.length
       ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1)
@@ -58,7 +53,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST /api/projects
 router.post('/', auth, async (req, res) => {
   try {
     const { title, description, category, location, date, spots, image } = req.body;
@@ -72,7 +66,6 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-// PUT /api/projects/:id
 router.put('/:id', auth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
@@ -85,7 +78,6 @@ router.put('/:id', auth, async (req, res) => {
   }
 });
 
-// DELETE /api/projects/:id
 router.delete('/:id', auth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);

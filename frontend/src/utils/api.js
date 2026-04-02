@@ -5,7 +5,6 @@ const api = axios.create({
   timeout: 10000,
 });
 
-// Attach JWT token to every request
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -17,7 +16,6 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Handle 401 globally — redirect to login
 api.interceptors.response.use(
   (response) => response,
   (error) => {

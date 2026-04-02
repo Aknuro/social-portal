@@ -3,7 +3,6 @@ const router = express.Router();
 const Notification = require('../models/Notification');
 const auth = require('../middleware/auth');
 
-// GET /api/notifications — get my notifications
 router.get('/', auth, async (req, res) => {
   try {
     const notes = await Notification.find({ user: req.user.id }).sort({ createdAt: -1 }).limit(30);
@@ -13,7 +12,6 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// PUT /api/notifications/read-all — mark all as read
 router.put('/read-all', auth, async (req, res) => {
   try {
     await Notification.updateMany({ user: req.user.id, read: false }, { read: true });

@@ -34,7 +34,7 @@ const projectSchema = new mongoose.Schema({
   },
   maxParticipants: {
     type: Number,
-    default: 0 // 0 = unlimited
+    default: 0
   },
   status: {
     type: String,

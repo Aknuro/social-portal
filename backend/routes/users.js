@@ -8,7 +8,6 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Multer for avatar uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const dir = path.join(__dirname, '../uploads/avatars');
@@ -23,7 +22,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
+  limits: { fileSize: 2 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     const allowed = /jpeg|jpg|png|webp/;
     if (allowed.test(path.extname(file.originalname).toLowerCase())) {
@@ -34,12 +33,10 @@ const upload = multer({
   },
 });
 
-// GET /api/users/profile — get own profile
 router.get('/profile', protect, async (req, res) => {
   res.json(req.user);
 });
 
-// PUT /api/users/profile — update profile
 router.put(
   '/profile',
   protect,
@@ -70,7 +67,6 @@ router.put(
   }
 );
 
-// PUT /api/users/change-password
 router.put(
   '/change-password',
   protect,
@@ -101,7 +97,6 @@ router.put(
   }
 );
 
-// GET /api/users/my-projects — organizer's own projects
 router.get('/my-projects', protect, async (req, res, next) => {
   try {
     const projects = await Project.find({ organizer: req.user._id })

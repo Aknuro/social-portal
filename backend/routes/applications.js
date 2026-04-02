@@ -5,7 +5,6 @@ const Project = require('../models/Project');
 const Notification = require('../models/Notification');
 const auth = require('../middleware/auth');
 
-// POST /api/applications — apply for a project
 router.post('/', auth, async (req, res) => {
   try {
     const { projectId, message } = req.body;
@@ -15,11 +14,9 @@ router.post('/', auth, async (req, res) => {
     if (!project) return res.status(404).json({ message: 'Проект не найден' });
     if (project.status === 'completed') return res.status(400).json({ message: 'Проект уже завершён' });
 
-    // Check already applied
     const existing = await Application.findOne({ user: req.user.id, project: projectId });
     if (existing) return res.status(400).json({ message: 'Вы уже подали заявку на этот проект' });
 
-    // Check spots — count approved applications
     const approvedCount = await Application.countDocuments({ project: projectId, status: 'approved' });
     if (approvedCount >= project.spots) {
       return res.status(400).json({ message: 'Все места уже заняты' });
@@ -33,7 +30,6 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-// GET /api/applications/my
 router.get('/my', auth, async (req, res) => {
   try {
     const apps = await Application.find({ user: req.user.id })
@@ -45,7 +41,6 @@ router.get('/my', auth, async (req, res) => {
   }
 });
 
-// GET /api/applications/check/:projectId
 router.get('/check/:projectId', auth, async (req, res) => {
   try {
     const app = await Application.findOne({ user: req.user.id, project: req.params.projectId });
@@ -58,7 +53,6 @@ router.get('/check/:projectId', auth, async (req, res) => {
   }
 });
 
-// GET /api/applications/project/:projectId — owner sees all
 router.get('/project/:projectId', auth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.projectId);
@@ -74,7 +68,6 @@ router.get('/project/:projectId', auth, async (req, res) => {
   }
 });
 
-// PUT /api/applications/:id/status — approve or reject
 router.put('/:id/status', auth, async (req, res) => {
   try {
     const { status } = req.body;
@@ -85,7 +78,6 @@ router.put('/:id/status', auth, async (req, res) => {
     if (!app) return res.status(404).json({ message: 'Заявка не найдена' });
     if (app.project.author.toString() !== req.user.id) return res.status(403).json({ message: 'Нет прав' });
 
-    // If approving — check if spots are full
     if (status === 'approved') {
       const approvedCount = await Application.countDocuments({
         project: app.project._id,
@@ -97,7 +89,6 @@ router.put('/:id/status', auth, async (req, res) => {
         return res.status(400).json({ message: `Все ${app.project.spots} мест уже заняты` });
       }
 
-      // If this approval fills up all spots — auto-reject everyone else pending
       if (approvedCount + 1 >= app.project.spots) {
         const otherPending = await Application.find({
           project: app.project._id,
@@ -105,13 +96,11 @@ router.put('/:id/status', auth, async (req, res) => {
           _id: { $ne: app._id }
         });
 
-        // Reject all other pending
         await Application.updateMany(
           { project: app.project._id, status: 'pending', _id: { $ne: app._id } },
           { status: 'rejected' }
         );
 
-        // Send rejection notifications to all of them
         const notifications = otherPending.map(a => ({
           user: a.user,
           message: `❌ К сожалению, все места на проект «${app.project.title}» заняты. Ваша заявка отклонена.`,
@@ -126,7 +115,6 @@ router.put('/:id/status', auth, async (req, res) => {
     app.status = status;
     await app.save();
 
-    // Notify the applicant
     const msg = status === 'approved'
       ? `✅ Ваша заявка на проект «${app.project.title}» принята!`
       : `❌ Ваша заявка на проект «${app.project.title}» отклонена.`;
@@ -144,7 +132,6 @@ router.put('/:id/status', auth, async (req, res) => {
   }
 });
 
-// DELETE /api/applications/:id — cancel
 router.delete('/:id', auth, async (req, res) => {
   try {
     const app = await Application.findById(req.params.id);

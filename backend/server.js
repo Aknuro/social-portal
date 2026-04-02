@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors());
-app.use(express.json({ limit: '5mb' })); // allow base64 avatar
+app.use(express.json({ limit: '5mb' }));
 
 app.use('/api/auth',          require('./routes/auth'));
 app.use('/api/projects',      require('./routes/projects'));

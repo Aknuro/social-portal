@@ -4,7 +4,6 @@ const Application = require('../models/Application');
 const Project = require('../models/Project');
 const { protect } = require('../middleware/auth');
 
-// POST /api/applications — submit application
 router.post('/', protect, async (req, res) => {
   try {
     const { projectId, message } = req.body;
@@ -44,7 +43,6 @@ router.post('/', protect, async (req, res) => {
   }
 });
 
-// GET /api/applications/my — user's own applications
 router.get('/my', protect, async (req, res) => {
   try {
     const applications = await Application.find({ applicant: req.user._id })
@@ -56,7 +54,6 @@ router.get('/my', protect, async (req, res) => {
   }
 });
 
-// GET /api/applications/project/:projectId — applications for organizer's project
 router.get('/project/:projectId', protect, async (req, res) => {
   try {
     const project = await Project.findById(req.params.projectId);
@@ -74,7 +71,6 @@ router.get('/project/:projectId', protect, async (req, res) => {
   }
 });
 
-// PATCH /api/applications/:id/status — approve/reject
 router.patch('/:id/status', protect, async (req, res) => {
   try {
     const { status } = req.body;
@@ -96,7 +92,6 @@ router.patch('/:id/status', protect, async (req, res) => {
   }
 });
 
-// DELETE /api/applications/:id — cancel application
 router.delete('/:id', protect, async (req, res) => {
   try {
     const application = await Application.findById(req.params.id);

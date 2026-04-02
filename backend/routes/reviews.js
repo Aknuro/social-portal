@@ -4,7 +4,6 @@ const Review = require('../models/Review');
 const Application = require('../models/Application');
 const auth = require('../middleware/auth');
 
-// GET /api/reviews/project/:id — get reviews for a project
 router.get('/project/:id', async (req, res) => {
   try {
     const reviews = await Review.find({ project: req.params.id })
@@ -16,13 +15,11 @@ router.get('/project/:id', async (req, res) => {
   }
 });
 
-// POST /api/reviews — leave a review (must have approved application)
 router.post('/', auth, async (req, res) => {
   try {
     const { projectId, rating, comment } = req.body;
     if (!projectId || !rating) return res.status(400).json({ message: 'Укажите проект и оценку' });
 
-    // Check user was approved participant
     const app = await Application.findOne({ user: req.user.id, project: projectId, status: 'approved' });
     if (!app) return res.status(403).json({ message: 'Оставить отзыв могут только участники проекта' });
 

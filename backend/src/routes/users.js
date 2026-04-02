@@ -4,7 +4,6 @@ const User = require('../models/User');
 const Project = require('../models/Project');
 const { protect } = require('../middleware/auth');
 
-// GET /api/users/profile — get own profile
 router.get('/profile', protect, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
@@ -15,7 +14,6 @@ router.get('/profile', protect, async (req, res) => {
   }
 });
 
-// PUT /api/users/profile — update profile
 router.put('/profile', protect, async (req, res) => {
   try {
     const { name, bio } = req.body;

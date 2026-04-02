@@ -8,7 +8,6 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
 
-  // Set axios default header
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -17,7 +16,6 @@ export function AuthProvider({ children }) {
     }
   }, [token]);
 
-  // Load user on mount
   useEffect(() => {
     const loadUser = async () => {
       if (!token) { setLoading(false); return; }

@@ -24,7 +24,6 @@ const applicationSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-// One application per user per project
 applicationSchema.index({ project: 1, applicant: 1 }, { unique: true });
 
 module.exports = mongoose.model('Application', applicationSchema);

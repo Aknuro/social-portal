@@ -9,7 +9,6 @@ const generateToken = (id) => jwt.sign(
   { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
 );
 
-// POST /api/auth/register
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -39,7 +38,6 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// POST /api/auth/login
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -68,7 +66,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// GET /api/auth/me
 router.get('/me', require('../middleware/auth').protect, async (req, res) => {
   res.json({ user: req.user });
 });

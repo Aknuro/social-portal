@@ -4,7 +4,6 @@ const Project = require('../models/Project');
 const Application = require('../models/Application');
 const { protect } = require('../middleware/auth');
 
-// GET /api/projects — get all active projects with filters
 router.get('/', async (req, res) => {
   try {
     const { category, search, page = 1, limit = 9 } = req.query;
@@ -29,7 +28,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/projects/:id — get single project
 router.get('/:id', async (req, res) => {
   try {
     const project = await Project.findById(req.params.id)
@@ -43,7 +41,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST /api/projects — create project (auth required)
 router.post('/', protect, async (req, res) => {
   try {
     const { title, description, category, location, startDate, endDate, maxParticipants, tags } = req.body;
@@ -64,7 +61,6 @@ router.post('/', protect, async (req, res) => {
   }
 });
 
-// PUT /api/projects/:id — update project
 router.put('/:id', protect, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
@@ -83,7 +79,6 @@ router.put('/:id', protect, async (req, res) => {
   }
 });
 
-// DELETE /api/projects/:id
 router.delete('/:id', protect, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
