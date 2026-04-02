@@ -1,0 +1,88 @@
+.home { overflow-x: hidden; }
+
+/* Hero */
+.hero {
+  max-width: 1200px; margin: 0 auto; padding: 80px 24px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+}
+.hero-badge {
+  display: inline-block; padding: 6px 14px; background: rgba(26,95,63,0.1);
+  color: var(--primary); border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 16px;
+}
+.hero-content h1 { font-size: clamp(36px, 5vw, 56px); color: var(--primary-dark); margin-bottom: 16px; }
+.hero-content p { font-size: 18px; color: var(--text-muted); margin-bottom: 32px; max-width: 440px; }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px; background: var(--primary); color: white;
+  border-radius: 50px; font-weight: 600; font-size: 15px;
+  transition: all 0.2s; border: none; text-decoration: none;
+}
+.btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); }
+.btn-outline {
+  display: inline-flex; align-items: center;
+  padding: 14px 28px; border: 2px solid var(--primary); color: var(--primary);
+  border-radius: 50px; font-weight: 600; font-size: 15px;
+  transition: all 0.2s;
+}
+.btn-outline:hover { background: rgba(26,95,63,0.08); }
+.btn-large { padding: 16px 36px; font-size: 17px; }
+.hero-visual {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.hero-card {
+  background: var(--bg-card); border-radius: var(--radius); padding: 32px 16px;
+  text-align: center; font-size: 14px; font-weight: 600; color: var(--text-muted);
+  box-shadow: var(--shadow); line-height: 2;
+  transition: transform 0.3s;
+}
+.hero-card:hover { transform: translateY(-4px); }
+.hero-card:nth-child(2) { margin-top: 24px; }
+.hero-card:nth-child(4) { margin-top: -24px; }
+
+/* Stats */
+.stats { background: var(--primary); padding: 40px 24px; }
+.stats-grid {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center;
+}
+.stat-item span { font-family: 'Geologica', sans-serif; font-size: 40px; font-weight: 700; color: white; display: block; }
+.stat-item p { color: rgba(255,255,255,0.7); font-size: 14px; margin-top: 4px; }
+
+/* Features */
+.features { padding: 80px 0; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.section-title { font-size: 32px; text-align: center; margin-bottom: 48px; color: var(--primary-dark); }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+.feature-card {
+  background: var(--bg-card); border-radius: var(--radius); padding: 32px 24px;
+  text-align: center; box-shadow: var(--shadow); transition: transform 0.3s;
+}
+.feature-card:hover { transform: translateY(-4px); }
+.feature-icon { font-size: 40px; display: block; margin-bottom: 16px; }
+.feature-card h3 { font-size: 18px; margin-bottom: 8px; color: var(--primary-dark); }
+.feature-card p { font-size: 14px; color: var(--text-muted); }
+
+/* Categories */
+.categories-section { padding: 60px 0; background: var(--bg-card); }
+.categories-grid { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.category-pill {
+  padding: 10px 24px; background: var(--bg); border-radius: 50px;
+  font-size: 15px; font-weight: 500; color: var(--text-muted);
+  border: 1px solid var(--border); transition: all 0.2s; text-transform: capitalize;
+}
+.category-pill:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+/* CTA */
+.cta { padding: 80px 24px; text-align: center; }
+.cta h2 { font-size: 36px; color: var(--primary-dark); margin-bottom: 12px; }
+.cta p { font-size: 17px; color: var(--text-muted); margin-bottom: 32px; }
+
+@media (max-width: 768px) {
+  .hero { grid-template-columns: 1fr; gap: 40px; padding: 40px 24px; }
+  .hero-visual { grid-template-columns: repeat(4,1fr); gap: 8px; }
+  .hero-card { padding: 16px 8px; font-size: 12px; }
+  .hero-card:nth-child(2), .hero-card:nth-child(4) { margin: 0; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-item span { font-size: 28px; }
+}

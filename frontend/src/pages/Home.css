@@ -1,0 +1,41 @@
+.home { padding-bottom: 60px; }
+
+.hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+  color: white; padding: 80px 20px;
+  display: flex; align-items: center; justify-content: center;
+  gap: 40px; flex-wrap: wrap; text-align: center;
+}
+.hero-content { max-width: 560px; }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; line-height: 1.2; margin-bottom: 16px; }
+.hero h1 span { color: var(--green); }
+.hero p { font-size: 1.1rem; opacity: 0.85; line-height: 1.6; margin-bottom: 32px; }
+.hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-primary { background: var(--green); color: white; padding: 13px 28px; border-radius: 10px; font-weight: 700; font-size: 1rem; display: inline-block; transition: background 0.2s, transform 0.2s; }
+.btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); }
+.btn-outline { border: 2px solid rgba(255,255,255,0.5); color: white; padding: 11px 28px; border-radius: 10px; font-weight: 700; font-size: 1rem; display: inline-block; transition: border-color 0.2s, transform 0.2s; }
+.btn-outline:hover { border-color: white; transform: translateY(-2px); }
+.hero-emoji { font-size: 8rem; line-height: 1; }
+
+.stats {
+  max-width: 700px; margin: -30px auto 0;
+  background: white; border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  display: flex; justify-content: space-around; padding: 28px 20px;
+  position: relative; z-index: 2;
+}
+.stat { text-align: center; }
+.stat span { font-size: 2rem; font-weight: 800; color: var(--dark); display: block; }
+.stat.green span { color: var(--green-dark); }
+.stat p { color: var(--gray); font-size: 0.85rem; }
+
+.categories { max-width: 1000px; margin: 60px auto; padding: 0 20px; }
+.categories h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 24px; text-align: center; }
+.cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+.cat-card { background: white; border-radius: 14px; padding: 24px 16px; text-align: center; box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; gap: 10px; font-weight: 700; color: var(--dark); transition: transform 0.2s; border: 2px solid transparent; }
+.cat-card:hover { transform: translateY(-4px); border-color: var(--green); }
+.cat-icon { font-size: 2rem; }
+
+.cta { background: var(--green-light); text-align: center; padding: 60px 20px; margin-top: 20px; }
+.cta h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; }
+.cta p { color: var(--gray); margin-bottom: 24px; }

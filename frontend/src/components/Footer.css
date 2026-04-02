@@ -1,0 +1,18 @@
+.footer {
+  background: var(--primary-dark); color: rgba(255,255,255,0.7);
+  margin-top: auto; padding-top: 40px;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 24px 32px;
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 32px;
+  flex-wrap: wrap;
+}
+.footer-brand span { font-family: 'Geologica', sans-serif; font-size: 18px; font-weight: 700; color: white; }
+.footer-brand p { font-size: 13px; margin-top: 6px; }
+.footer-links { display: flex; flex-direction: column; gap: 8px; }
+.footer-links a { font-size: 14px; color: rgba(255,255,255,0.6); transition: color 0.2s; }
+.footer-links a:hover { color: white; }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  text-align: center; padding: 16px; font-size: 13px;
+}

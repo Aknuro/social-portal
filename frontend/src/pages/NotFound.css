@@ -1,0 +1,8 @@
+.notfound {
+  text-align: center;
+  padding: 100px 20px;
+}
+.notfound-emoji { font-size: 4rem; margin-bottom: 10px; }
+.notfound h1 { font-size: 5rem; font-weight: 800; color: var(--green); margin-bottom: 8px; }
+.notfound p { color: var(--gray); font-size: 1.2rem; margin-bottom: 28px; }
+.btn-home { background: var(--green); color: white; padding: 12px 28px; border-radius: 10px; font-weight: 700; display: inline-block; }

@@ -1,0 +1,39 @@
+.projects-page { padding: 40px 0 80px; min-height: 80vh; }
+.projects-header { text-align: center; margin-bottom: 40px; }
+.projects-header h1 { font-size: 36px; color: var(--primary-dark); margin-bottom: 8px; }
+.projects-header p { color: var(--text-muted); font-size: 17px; }
+.search-bar { margin-bottom: 20px; }
+.search-bar input {
+  width: 100%; padding: 14px 20px; border: 1.5px solid var(--border); border-radius: 50px;
+  font-size: 15px; background: var(--bg-card); outline: none; transition: border 0.2s;
+}
+.search-bar input:focus { border-color: var(--primary); }
+.category-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.filter-btn {
+  padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 50px;
+  background: var(--bg-card); font-size: 14px; font-weight: 500;
+  color: var(--text-muted); transition: all 0.2s; text-transform: capitalize;
+}
+.filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+.filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+.results-info { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+.loading-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+.skeleton-card {
+  height: 340px; border-radius: var(--radius);
+  background: linear-gradient(90deg, var(--border) 25%, var(--bg) 50%, var(--border) 75%);
+  background-size: 200% 100%; animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+.empty-state, .error-state {
+  text-align: center; padding: 80px 24px; color: var(--text-muted);
+}
+.empty-state span { font-size: 64px; display: block; margin-bottom: 16px; }
+.empty-state h3 { font-size: 22px; margin-bottom: 8px; }
+.pagination { display: flex; gap: 8px; justify-content: center; margin-top: 40px; }
+.page-btn {
+  width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--border);
+  background: var(--bg-card); font-weight: 600; color: var(--text-muted); transition: all 0.2s;
+}
+.page-btn:hover { border-color: var(--primary); color: var(--primary); }
+.page-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
