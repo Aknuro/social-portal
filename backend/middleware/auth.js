@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = function (req, res, next) {
+const auth = function (req, res, next) {
   const token = req.header('Authorization')?.replace('Bearer ', '');
   if (!token) return res.status(401).json({ message: 'Нет токена, доступ запрещён' });
 
@@ -12,3 +12,6 @@ module.exports = function (req, res, next) {
     res.status(401).json({ message: 'Недействительный токен' });
   }
 };
+
+module.exports = auth;
+module.exports.protect = auth;
