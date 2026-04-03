@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import './CreateProject.css';
 
@@ -39,7 +39,7 @@ export default function CreateProject() {
     setLoading(true);
     setError('');
     try {
-      const { data } = await axios.post('/api/projects', { ...form, spots: Number(form.spots) });
+      const { data } = await api.post('/projects', { ...form, spots: Number(form.spots) });
       navigate(`/projects/${data._id}`);
     } catch (err) {
       setError(err.response?.data?.message || 'Ошибка создания');

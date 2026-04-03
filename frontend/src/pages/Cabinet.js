@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import './Cabinet.css';
 
@@ -31,9 +31,9 @@ export default function Cabinet() {
     const load = async () => {
       try {
         const [appsRes, projRes, meRes] = await Promise.all([
-          axios.get('/api/applications/my'),
-          axios.get('/api/projects/my'),
-          axios.get('/api/auth/me'),
+          api.get('/applications/my'),
+          api.get('/projects/my'),
+          api.get('/auth/me'),
         ]);
         setApplications(appsRes.data);
         setMyProjects(projRes.data);
@@ -57,14 +57,14 @@ export default function Cabinet() {
   const cancelApp = async (id) => {
     if (!window.confirm('Отменить заявку?')) return;
     try {
-      await axios.delete(`/api/applications/${id}`);
+      await api.delete(`/applications/${id}`);
       setApplications(prev => prev.filter(a => a._id !== id));
     } catch { alert('Ошибка'); }
   };
 
   const markComplete = async (id) => {
     try {
-      await axios.put(`/api/projects/${id}`, { status: 'completed' });
+      await api.put(`/projects/${id}`, { status: 'completed' });
       setMyProjects(prev => prev.map(p => p._id === id ? { ...p, status: 'completed' } : p));
     } catch { alert('Ошибка'); }
   };
@@ -72,7 +72,7 @@ export default function Cabinet() {
   const deleteProject = async (id) => {
     if (!window.confirm('Удалить проект?')) return;
     try {
-      await axios.delete(`/api/projects/${id}`);
+      await api.delete(`/projects/${id}`);
       setMyProjects(prev => prev.filter(p => p._id !== id));
     } catch { alert('Ошибка'); }
   };
@@ -98,7 +98,7 @@ export default function Cabinet() {
         ...form,
         completedProjects: form.completedProjects.split('\n').map(s => s.trim()).filter(Boolean),
       };
-      const { data } = await axios.put('/api/auth/profile', payload);
+      const { data } = await api.put('/auth/profile', payload);
       setProfile(data);
       setEditMode(false);
       setSaveMsg('✅ Профиль сохранён!');

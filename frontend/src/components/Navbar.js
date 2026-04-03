@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
 
@@ -15,7 +15,7 @@ export default function Navbar() {
     if (!user) { setNotifications([]); return; }
     const load = async () => {
       try {
-        const { data } = await axios.get('/api/notifications');
+        const { data } = await api.get('/notifications');
         setNotifications(data);
       } catch {}
     };
@@ -30,7 +30,7 @@ export default function Navbar() {
     setShowNotes(!showNotes);
     if (!showNotes && unread > 0) {
       try {
-        await axios.put('/api/notifications/read-all');
+        await api.put('/notifications/read-all');
         setNotifications(prev => prev.map(n => ({ ...n, read: true })));
       } catch {}
     }

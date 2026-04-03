@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import './Home.css';
 
 const categories = [
@@ -16,7 +16,7 @@ export default function Home() {
   const [stats, setStats] = useState({ total: 0, active: 0, completed: 0 });
 
   useEffect(() => {
-    axios.get('/api/projects/stats').then(r => setStats(r.data)).catch(() => {});
+    api.get('/projects/stats').then(r => setStats(r.data)).catch(() => {});
   }, []);
 
   return (

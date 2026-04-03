@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import './ManageProject.css';
 
@@ -25,8 +25,8 @@ export default function ManageProject() {
     const load = async () => {
       try {
         const [projRes, appsRes] = await Promise.all([
-          axios.get(`/api/projects/${id}`),
-          axios.get(`/api/applications/project/${id}`),
+          api.get(`/projects/${id}`),
+          api.get(`/applications/project/${id}`),
         ]);
         setProject(projRes.data);
         setApps(appsRes.data);
@@ -41,7 +41,7 @@ export default function ManageProject() {
 
   const changeStatus = async (appId, status) => {
     try {
-      await axios.put(`/api/applications/${appId}/status`, { status });
+      await api.put(`/applications/${appId}/status`, { status });
       setApps(prev => prev.map(a => a._id === appId ? { ...a, status } : a));
     } catch { alert('Ошибка'); }
   };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import './Auth.css';
 
@@ -19,7 +19,7 @@ export default function Login() {
     setLoading(true);
     setError('');
     try {
-      const { data } = await axios.post('/api/auth/login', form);
+      const { data } = await api.post('/auth/login', form);
       login(data);
       navigate('/cabinet');
     } catch (err) {

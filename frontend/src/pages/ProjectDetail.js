@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import './ProjectDetail.css';
 
@@ -31,20 +31,20 @@ export default function ProjectDetail() {
     const load = async () => {
       try {
         const [projRes, revRes] = await Promise.all([
-          axios.get(`/api/projects/${id}`),
-          axios.get(`/api/reviews/project/${id}`),
+          api.get(`/projects/${id}`),
+          api.get(`/reviews/project/${id}`),
         ]);
         setProject(projRes.data);
         setReviews(revRes.data);
 
         if (user) {
-          const checkRes = await axios.get(`/api/applications/check/${id}`);
+          const checkRes = await api.get(`/applications/check/${id}`);
           setAppStatus(checkRes.data.applied ? checkRes.data.status : null);
           setSpotsFull(checkRes.data.spotsFull);
           setApprovedCount(checkRes.data.approvedCount || 0);
         } else {
           // Even non-logged users should see spots status
-          const checkRes = await axios.get(`/api/applications/check/${id}`).catch(() => ({ data: {} }));
+          const checkRes = await api.get(`/applications/check/${id}`).catch(() => ({ data: {} }));
           setSpotsFull(checkRes.data.spotsFull || false);
           setApprovedCount(checkRes.data.approvedCount || 0);
         }
@@ -58,7 +58,7 @@ export default function ProjectDetail() {
     if (!user) { navigate('/login'); return; }
     setApplying(true); setApplyMsg(''); setApplyError('');
     try {
-      await axios.post('/api/applications', { projectId: id, message });
+      await api.post('/applications', { projectId: id, message });
       setApplyMsg('✅ Заявка успешно подана!');
       setAppStatus('pending');
       setMessage('');
@@ -69,7 +69,7 @@ export default function ProjectDetail() {
 
   const handleDelete = async () => {
     if (!window.confirm('Удалить проект?')) return;
-    try { await axios.delete(`/api/projects/${id}`); navigate('/projects'); }
+    try { await api.delete(`/projects/${id}`); navigate('/projects'); }
     catch { alert('Ошибка при удалении'); }
   };
 
@@ -77,7 +77,7 @@ export default function ProjectDetail() {
     if (!myRating) { setReviewError('Выберите оценку'); return; }
     setReviewError('');
     try {
-      const { data } = await axios.post('/api/reviews', { projectId: id, rating: myRating, comment: myComment });
+      const { data } = await api.post('/reviews', { projectId: id, rating: myRating, comment: myComment });
       setReviews(prev => [data, ...prev]);
       setReviewMsg('✅ Отзыв оставлен, спасибо!');
       setMyRating(0); setMyComment('');

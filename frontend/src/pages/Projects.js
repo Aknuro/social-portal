@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import ProjectCard from '../components/ProjectCard';
 import './Projects.css';
 
@@ -21,7 +21,7 @@ export default function Projects() {
         const params = {};
         if (activeCategory !== 'Все') params.category = activeCategory;
         if (search.trim()) params.search = search.trim();
-        const { data } = await axios.get('/api/projects', { params });
+        const { data } = await api.get('/projects', { params });
         setProjects(data);
       } catch { setError('Не удалось загрузить проекты'); }
       finally { setLoading(false); }
