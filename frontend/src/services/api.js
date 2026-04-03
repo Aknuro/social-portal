@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // Создаём экземпляр axios с базовым URL
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api', // Используем переменную окружения или локальный сервер
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
   headers: { 'Content-Type': 'application/json' },
 });
 
