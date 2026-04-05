@@ -42,7 +42,10 @@ export default function ManageProject() {
   const changeStatus = async (appId, status) => {
     try {
       await api.put(`/applications/${appId}/status`, { status });
-      setApps(prev => prev.map(a => a._id === appId ? { ...a, status } : a));
+      // После изменения статуса запрашиваем обновленный список заявок, 
+      // чтобы подтянуть заявки, которые сервер мог отклонить автоматически
+      const appsRes = await api.get(`/applications/project/${id}`);
+      setApps(appsRes.data);
     } catch { alert('Ошибка'); }
   };
 
@@ -55,6 +58,9 @@ export default function ManageProject() {
     approved: apps.filter(a => a.status === 'approved').length,
     rejected: apps.filter(a => a.status === 'rejected').length,
   };
+
+  // Флаг, заполнены ли места
+  const isFull = counts.approved >= project.spots;
 
   return (
     <div className="manage-page">
@@ -69,7 +75,10 @@ export default function ManageProject() {
       <div className="manage-stats">
         <div className="mstat"><span>{counts.all}</span><p>Всего</p></div>
         <div className="mstat"><span>{counts.pending}</span><p>На рассмотрении</p></div>
-        <div className="mstat accepted"><span>{counts.approved}</span><p>Принято</p></div>
+        <div className={`mstat accepted ${isFull ? 'full-spots' : ''}`}>
+          <span>{counts.approved} / {project.spots}</span>
+          <p>Принято {isFull && '(Максимум)'}</p>
+        </div>
         <div className="mstat rejected"><span>{counts.rejected}</span><p>Отклонено</p></div>
       </div>
 
@@ -152,9 +161,16 @@ export default function ManageProject() {
               {/* Action buttons */}
               {app.status === 'pending' && (
                 <div className="ac-actions">
-                  <button className="btn-approve" onClick={() => changeStatus(app._id, 'approved')}>
-                    ✅ Принять
-                  </button>
+                  {!isFull && (
+                    <button className="btn-approve" onClick={() => changeStatus(app._id, 'approved')}>
+                      ✅ Принять
+                    </button>
+                  )}
+                  {isFull && (
+                    <span className="spots-full-badge" style={{ backgroundColor: '#ffcccc', padding: '5px 10px', borderRadius: '5px', fontSize: '0.9rem', color: '#cc0000', gridColumn: 'span 2', textAlign: 'center', marginBottom: '10px' }}>
+                      Максимальное количество участников уже набрано
+                    </span>
+                  )}
                   <button className="btn-reject" onClick={() => changeStatus(app._id, 'rejected')}>
                     ❌ Отклонить
                   </button>
