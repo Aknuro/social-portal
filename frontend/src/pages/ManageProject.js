@@ -176,13 +176,6 @@ export default function ManageProject() {
                   </button>
                 </div>
               )}
-              {app.status !== 'pending' && (
-                <div className="ac-actions">
-                  <button className="btn-reset" onClick={() => changeStatus(app._id, 'pending')}>
-                    ↩ Вернуть на рассмотрение
-                  </button>
-                </div>
-              )}
             </div>
           ))}
         </div>
