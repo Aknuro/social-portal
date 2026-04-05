@@ -43,10 +43,10 @@ export default function ProjectDetail() {
           setSpotsFull(checkRes.data.spotsFull);
           setApprovedCount(checkRes.data.approvedCount || 0);
         } else {
-          // Even non-logged users should see spots status
-          const checkRes = await api.get(`/applications/check/${id}`).catch(() => ({ data: {} }));
-          setSpotsFull(checkRes.data.spotsFull || false);
-          setApprovedCount(checkRes.data.approvedCount || 0);
+          // Non-logged users rely on project returned approvedCount
+          const approved = projRes.data.approvedCount || 0;
+          setSpotsFull(approved >= projRes.data.spots);
+          setApprovedCount(approved);
         }
       } catch { setError('Проект не найден'); }
       finally { setLoading(false); }

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Project = require('../models/Project');
 const Review = require('../models/Review');
+const Application = require('../models/Application');
 const auth = require('../middleware/auth');
 
 router.get('/', async (req, res) => {
@@ -47,7 +48,9 @@ router.get('/:id', async (req, res) => {
       ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1)
       : null;
 
-    res.json({ ...project.toObject(), avgRating, reviewCount: reviews.length });
+    const approvedCount = await Application.countDocuments({ project: req.params.id, status: 'approved' });
+
+    res.json({ ...project.toObject(), avgRating, reviewCount: reviews.length, approvedCount });
   } catch {
     res.status(500).json({ message: 'Ошибка сервера' });
   }
